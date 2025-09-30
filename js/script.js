@@ -14,7 +14,7 @@ function addTask() {
     if(task.value != "") {
         var todoListItem = document.createElement("li");
         todoListItem.setAttribute("class", "todo-item");
-        
+        // todoListItem.innerHTMLtml = "<p>Test</p>";
         // Todo description
         var todoDescription = document.createElement("span");  
         todoDescription.setAttribute("class", "todo-description");
@@ -108,7 +108,7 @@ function checkEmpty() {
 function removeTaskFromList() {
     var todoItems = document.getElementsByClassName("btn-remove");
 
-    // Bind even for all of the button with a class name btn-remove
+    // Bind event for all of the button with a class name btn-remove
     for (let i=0; i< todoItems.length; i++) {
         remove(todoItems[i]);
     }
