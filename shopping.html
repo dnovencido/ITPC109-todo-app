@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shopping List</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    ul { list-style-type: none; padding: 0; }
+    li { padding: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .purchased { text-decoration: line-through; color: gray; }
+    .btn { margin-left: 5px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>Shopping List</h2>
+  <input type="text" id="item-name" placeholder="Enter item">
+  <input type="number" id="item-qty" placeholder="Qty" min="1" value="1">
+  <button id="btn-add">Add Item</button>
+
+  <ul id="shopping-list">
+    <li id="list-empty"></li>
+  </ul>
+
+  <script>
+    const btnAdd = document.getElementById("btn-add");
+    const itemName = document.getElementById("item-name");
+    const itemQty = document.getElementById("item-qty");
+    const shoppingList = document.getElementById("shopping-list");
+
+    // Add initial text for empty state
+    document.getElementById("list-empty").appendChild(
+      document.createTextNode("No items yet. Add something!")
+    );
+
+    window.addEventListener("load", checkEmpty);
+    btnAdd.addEventListener("click", addItem);
+
+    function addItem() {
+      if (itemName.value !== "") {
+        const li = document.createElement("li");
+        li.classList.add("shopping-item");
+
+        // Description
+        const spanDesc = document.createElement("span");
+        const descText = document.createTextNode(`${itemName.value} (x${itemQty.value})`);
+        spanDesc.appendChild(descText);
+
+        // Buttons
+        const spanActions = document.createElement("span");
+
+        const btnDone = document.createElement("button");
+        btnDone.className = "btn";
+        btnDone.appendChild(document.createTextNode("Purchased"));
+        btnDone.addEventListener("click", function() {
+          spanDesc.classList.toggle("purchased");
+        });
+
+        const btnRemove = document.createElement("button");
+        btnRemove.className = "btn";
+        btnRemove.appendChild(document.createTextNode("Remove"));
+        btnRemove.addEventListener("click", function() {
+          li.remove();
+          checkEmpty();
+        });
+
+        spanActions.appendChild(btnDone);
+        spanActions.appendChild(btnRemove);
+
+        li.appendChild(spanDesc);
+        li.appendChild(spanActions);
+
+        // Clear placeholder "empty" item
+        const emptyItem = document.getElementById("list-empty");
+        if (emptyItem) {
+          shoppingList.innerHTML = "";
+        }
+
+        shoppingList.appendChild(li);
+
+        // Reset inputs
+        itemName.value = "";
+        itemQty.value = 1;
+      }
+    }
+
+    function checkEmpty() {
+      const items = document.getElementsByClassName("shopping-item");
+      if (items.length === 0) {
+        shoppingList.innerHTML = "";
+        const li = document.createElement("li");
+        li.setAttribute("id", "list-empty");
+        li.appendChild(document.createTextNode("No items yet. Add something!"));
+        shoppingList.appendChild(li);
+      }
+    }
+  </script>
+
+</body>
+</html>

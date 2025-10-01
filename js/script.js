@@ -72,9 +72,10 @@ function addTask() {
 
         //Reset task input field
         task.value = "";
+    } else {
+        alert("Please provide a task");
     }
 }
-
 
 function remove(object) {
     object.addEventListener("click", function() {
